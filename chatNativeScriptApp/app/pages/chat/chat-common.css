@@ -1,0 +1,63 @@
+.logoutBtn
+{
+    background-color: white;
+    color: #565656;
+}
+/* >> sidedrawer-getting-started-angular-css */
+button {
+    font-size: 15;
+    horizontal-align: center;
+}
+.userSection
+{
+    height: 40%;
+    background-color: purple;
+}
+.drawerContentText {
+    font-size: 13;
+    padding: 10;
+}
+.avatar
+{
+    border-radius: 100;
+    width: 40%;
+}
+.userName
+{
+    font-size: 16;
+    color: white;
+    font-weight: bold;
+    padding: 0;
+    margin-bottom: 0;
+}
+.schoolName
+{
+    font-size: 13;
+    color: white;
+    margin: 0;
+    padding: 0;
+    font-weight: bold;
+}
+.drawerContentButton {
+    margin: 10;
+    horizontal-align: left;
+}
+
+.sideStackLayout {
+    background-color: white;
+}
+
+.sideTitleStackLayout {
+    height: 56;
+    text-align: center;
+    vertical-align: center;
+}
+
+.sideLabel {
+    padding: 10;
+}
+
+.sideLightGrayLabel {
+    background-color: lightgray;
+}
+/* << sidedrawer-getting-started-angular-css */

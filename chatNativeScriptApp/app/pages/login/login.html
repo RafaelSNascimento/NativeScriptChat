@@ -1,0 +1,19 @@
+
+<StackLayout verticalAlignment="center" class="m-r-10 m-l-10" #main>
+  <Label text="&#xf086;" class="fa fa-5x" stretch="none" horizontalAlignment="center"></Label>
+  <StackLayout *ngIf="!isLoggingIn" class="form" #container [formGroup]="registerForm" >
+    <TextField class="input-border" hint="Name" formControlName="name"
+    autocorrect="false" autocapitalizationType="words"></TextField>
+    <TextField class="input-border" hint="Email Address" keyboardType="email" formControlName="username"
+    autocorrect="false" autocapitalizationType="none"></TextField>
+    <TextField class="input-border" hint="Password" secure="true" formControlName="password"></TextField>
+    <Button text="Sign up" class="btn btn-primary btn-submit" (tap)="submit()"></Button>
+  </StackLayout>
+  <StackLayout *ngIf="isLoggingIn" class="form" #container [formGroup]="loginForm">
+    <TextField class="input-border" hint="Email Address" keyboardType="email" formControlName="username"
+    autocorrect="false" autocapitalizationType="none"></TextField>
+    <TextField class="input-border" hint="Password" secure="true" formControlName="password"></TextField>
+    <Button text="Sign in" class="btn btn-primary btn-submit" (tap)="submit()"></Button>
+  </StackLayout>
+  <Button [text]="isLoggingIn ? 'Sign up' : 'Back to login'" class="btn btn-primary btn-change" (tap)="toggleDisplay()"></Button>
+</StackLayout>

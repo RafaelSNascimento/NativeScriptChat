@@ -1,0 +1,23 @@
+<ActionBar  class="action-bar" title="Bate-Papo">
+</ActionBar>
+<StackLayout>
+  <StackLayout *ngIf="!listUsers.length" orientation="horizontal" width="100%" horizontalAlignment="center" verticalAlignment="center">
+    <Label *ngIf="!loadingUsers" text="Você é o único usuário cadastrado no chat :(" textwrap="true"></Label>
+    <ActivityIndicator *ngIf="loadingUsers" busy="true" width="100" height="100" class="activity-indicator"></ActivityIndicator>
+  </StackLayout>
+  <ListView [items]="listUsers" height="100%" class="list-group">
+    <ng-template let-item="item" let-i="index">
+      <StackLayout class="p-5 list-group-item" orientation="horizontal" verticalAlignment="center" (tap)="selectUser(item)">
+        <Image verticalAlignment="center" horizontalAligment="left" src="~/style/assets/avatar-default.png"  class="circle" width="50"></Image>
+        <StackLayout verticalAlignment="center" class="m-l-10">
+          <Label textwrap="true" class="h4" text="{{item.name}}"></Label>
+          <Label text="{{item.status ? 'online' : 'offline'}}" class="note"></Label>
+        </StackLayout>
+        <StackLayout orientation="horizontal" width="100%" horizontalAlignment="right" verticalAlignment="center">
+          <Label *ngIf="item.badge>0" text="{{item.badge}}" textwrap="true" class="badge"></Label>
+          <Label text="&#xf061;" class="fa fa-2x"></Label>
+        </StackLayout>
+      </StackLayout>
+    </ng-template>
+  </ListView>
+</StackLayout>

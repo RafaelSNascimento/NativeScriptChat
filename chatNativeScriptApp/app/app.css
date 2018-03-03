@@ -1,0 +1,115 @@
+@import 'nativescript-theme-core/css/core.light.css';
+@import 'style/custom.css'; /* this downloaded theme */
+@import url("~/platform.css");
+Page {
+  background-color: #f3f3f4;
+}
+.fa {
+    font-family: "FontAwesome";
+}
+.fa-2x
+{
+  font-size: 30;
+}
+.fa-4x
+{
+  font-size: 60;
+}
+.fa-5x
+{
+  font-size: 80;
+}
+.fa-1x
+{
+  font-size: 25;
+}
+Label.note{
+  margin-top: -10;
+  font-size: 10;
+  padding: 0;
+}
+
+.theme-items-background
+{
+  background-color: #8e44ad;
+}
+.image-icon
+{
+  width: 100%;
+  max-height: 90%;
+}
+
+Button.icon{
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.right-ballon, .left-ballon
+{
+  border-radius: 10;
+  padding: 10;
+  width: fit-content;
+}
+.right-ballon Label
+{
+  text-align: left;
+  color: white;
+}
+.right-ballon
+{
+  background-color: #4080ff;
+}
+
+.left-ballon Label
+{
+  text-align: left;
+}
+.badge
+{
+  background-color: #8e44ad;
+  padding: 5;
+  text-align: center;
+  color: white;
+  margin-right: 10;
+  border-radius: 20;
+  width: auto;
+}
+.chatMessages{
+  background-color: #f3f3f4;
+}
+.left-ballon
+{
+  background-color: white;
+}
+
+.header-modal Label
+{
+  color: white;
+}
+TextField {
+  padding: 10;
+  font-size: 13;
+}
+.small-spacing {
+  margin: 5;
+}
+.medium-spacing {
+  margin: 10;
+}
+.logout
+{
+  margin-right: 13;
+}
+
+TextView, TextField
+{
+  placeholder-color: #6b6b6b;
+}
+.circle
+{
+  border-radius: 100;
+  width: 40%;
+}
+button{
+  border-radius: 1;
+}

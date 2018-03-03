@@ -1,0 +1,14 @@
+StackLayout.form, Button.btn-change
+{
+  margin-left: 30;
+  margin-right: 30;
+}
+
+Button.btn-submit, TextField {
+  margin-bottom: 10;
+}
+
+Button.btn-submit
+{
+  width: 100%;
+}

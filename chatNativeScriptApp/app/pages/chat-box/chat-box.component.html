@@ -1,0 +1,31 @@
+
+<ActionBar class="action-bar" title="Chat">
+    <StackLayout orientation="horizontal" ios:horizontalAlignment="center" android:horizontalAlignment="left">
+        <Button text="&#xf060;" horizontalAlignment="left" class="fa fa-1x" (tap)="goBack()"></Button>
+        <StackLayout orientation="horizontal" *ngIf="user" horizontalAligment="center">
+            <Image verticalAlignment="center"  src="~/style/assets/avatar-default.png"  class="circle" width="40"></Image>
+            <StackLayout verticalAlignment="center" class="m-l-10" >
+                <Label textwrap="true" class="h4 header" text="{{user.name}}"></Label>
+                <Label text="{{user.status ? 'online' : 'offline'}}" class="note"></Label>
+            </StackLayout>
+        </StackLayout>
+    </StackLayout>
+</ActionBar>
+<GridLayout rows="*, auto">
+    <StackLayout row="0" class="chatMessages">
+        <ListView  id="myScroller" [items]="user.messages" (loaded)="scrollToBottom()" backgroundColor="#f3f3f4">
+            <ng-template let-item="item">
+                <StackLayout>
+                    <StackLayout class="m-5" width="50%" [ngClass]="item._id == singleton.user._id ? 'right-ballon' : 'left-ballon'" horizontalAlignment="{{item._id == singleton.user._id ? 'right' : 'left'}}">
+                        <Label class="h4" textwrap="true" text="{{item.message}}" ></Label>
+                        <Label class="note"*ngIf="item._id == this.singleton.user._id" text="{{item.toUserReadDate | date:'short'}}"></Label>
+                    </StackLayout>
+                </StackLayout>
+            </ng-template>
+        </ListView>
+    </StackLayout>
+    <StackLayout row="1" orientation="horizontal" class="input-box">
+        <TextView hint="Escreva sua mensagem..." [(ngModel)]="message" width="85%"></TextView>
+        <Button  *ngIf="user" text="&#xf1d8;" class="text-center fa fa-1x btn-primary"  width="15%" (tap)="sendMessage(user._id, user.room_id)"></Button>
+    </StackLayout>
+</GridLayout>
