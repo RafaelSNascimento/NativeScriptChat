@@ -13,7 +13,6 @@ import { SocketService } from '../../services/socket-service/socket.service';
 })
 export class ChatComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
-    this._changeDetectionRef.detectChanges();
   }
   socket: any;
   selectedUsers = {};
@@ -24,15 +23,16 @@ export class ChatComponent implements OnInit, AfterViewInit {
     {
       this.socketService.initSocket();
     }
-    if(!this.socketService.listUsers.length)
-    {
-      this.socketService.changeUsersEmitted$.subscribe(()=>{
+    this.socketService.changeUsersEmitted$.subscribe(()=>{
+      if(!this.listUsers.length)
+      {
         this.listUsers = this.socketService.listUsers;
         this.loadingUsers = false;
-        this._changeDetectionRef.detectChanges();
-      })
-    }
-    else
+      }
+      this._changeDetectionRef.detectChanges();
+      this.listUsers = this.listUsers.slice();
+    })
+    if(this.socketService.listUsers.length)
     {
       this.listUsers = this.socketService.listUsers;
       this.loadingUsers = false;

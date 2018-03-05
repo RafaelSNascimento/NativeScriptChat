@@ -79,6 +79,7 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/chat']);
     }, error =>
     {
+      console.dir(error);
       alert({
         title: "Ops..",
         message: error.json()["message"],

@@ -19,6 +19,7 @@ export class ChatBoxComponent implements OnInit {
   user: any;
   message = "";
   user_id: number;
+  listView: ListView;
   constructor(public route: ActivatedRoute, public routerExtensions: RouterExtensions,private pageRoute: PageRoute, private _changeDetectionRef: ChangeDetectorRef, public singleton: SingletonService, public socketService: SocketService, private page: Page) {
     this.route.params.subscribe((params)=>{
       this.user_id =  params["_id"];
@@ -29,20 +30,22 @@ export class ChatBoxComponent implements OnInit {
     this.user["chatOpen"] = true;
     this.socketService.changeEmitted$.subscribe(()=>{
       this.scrollToBottom();
+      this.user = [...this.user];
     })
   }
 
   ngOnInit() {
+    console.log("ccalling me 1");
     this._changeDetectionRef.detectChanges();
+    this.listView = <ListView>this.page.getViewById("myScroller");
   }
   scrollToBottom(){
     if (!this._changeDetectionRef['destroyed']) {
       this._changeDetectionRef.detectChanges();
     }
-    var listView = <ListView>this.page.getViewById("myScroller");
-    if(listView)
+    if(this.listView && this.user["messages"].length > 2)
     {
-      listView.scrollToIndex(this.user["messages"].length-1);
+      this.listView.scrollToIndex(this.user["messages"].length-1);
     }
   }
   ngOnDestroy()

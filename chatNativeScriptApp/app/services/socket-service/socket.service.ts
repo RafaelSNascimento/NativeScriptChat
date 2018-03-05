@@ -30,25 +30,26 @@ export class SocketService {
         this.socket.on('userlogin', function (userLogin) {
 
             console.log("Login de usuário com o id: "+userLogin._id);
-
+            this.ngZone.run(() => {
             // verifico se o id do usuário que efetuou login é igual ao nosso, para que não sejamos notificados do nosso proprio  login em outro dispositivo
-            if(userLogin._id != this.singleton.user["_id"])
-            {
-                // se for diferente, preciso achar o usuário que efetuou o login e tornar o status dele para true(online)
-                this.listUsers.map(user=>{
-                    if(user._id == userLogin._id)
-                    {
-                        if(!user.status)
+                if(userLogin._id != this.singleton.user["_id"])
+                {
+                    // se for diferente, preciso achar o usuário que efetuou o login e tornar o status dele para true(online)
+                    
+                    this.listUsers.map(user=>{
+                        if(user._id == userLogin._id)
                         {
-                            user.status = true;
+                            if(!user.status)
+                            {
+                                user.status = true;
+                            }
                         }
-                    }
-                })
-                this.ngZone.run(() => {
-                    // ordenamos nossa lista de usuários pelo status
-                    this.listUsers = this.cfs.orderByProperty(this.listUsers, 'status');
-                });
-            }
+                    })
+                // ordenamos nossa lista de usuários pelo status
+                }
+                this.listUsers = this.cfs.orderByProperty(this.listUsers, 'status');
+                this.emitChangeUsers.next();
+            });
         }.bind(this));
 
         // lista dos usuários cadastrados no sistema
@@ -56,9 +57,6 @@ export class SocketService {
             this.ngZone.run(() => {
                 this.listUsers = listUsers.all;
                 
-                // emitimos um sinal para nosso chatComponent, para dizer que temos uma lista de usuários disponivel para ele
-                this.emitChangeUsers.next();
-
                 this.listUsers.map(user=>{
 
                     // pegamos o número da badge do usuário e passamos para o objeto user
@@ -66,9 +64,6 @@ export class SocketService {
                     this.singleton.chatBadge += user["badge"];
 
                     // verificamos se o id do usuário está na lista de usuários online, se estiver, tornamos o status dele para true
-                    console.dir(listUsers.available)
-                    console.log("id do usuário: "+user._id);
-                    console.log(listUsers.available.indexOf(user._id));
                     if(listUsers.available.indexOf(user._id) > -1)
                     {
                         user.status = true;
@@ -76,22 +71,27 @@ export class SocketService {
                 })
                 // ordenamos nossa lista de usuários pelo status
                 this.listUsers = this.cfs.orderByProperty(this.listUsers, 'status')
+
+                // emitimos um sinal para nosso chatComponent, para dizer que temos uma lista de usuários disponivel para ele
+                this.emitChangeUsers.next();
             });
         })
 
         // Evento responsável por ouvir leituras dos usuários a mensagens que você enviou
         this.socket.on('receiverRead', (userId)=>{
+            console.log("recebeu leitura do usuário: "+userId);
             this.ngZone.run(() => {
                 if(this.selectedUsers[userId])
                 {
-                var currentDate = Date.now();
-                this.selectedUsers[userId].messages.forEach(element => {
-                    if(element.toUser == userId && !element["toUserRead"])
-                    {
-                    element["toUserRead"] = true;
-                    element["toUserReadDate"] = currentDate;
-                    }
-                });
+                    var currentDate = Date.now();
+                    this.selectedUsers[userId].messages.forEach(element => {
+                        if(element.toUser == userId && !element["toUserRead"])
+                        {
+                            element["toUserRead"] = true;
+                            element["toUserReadDate"] = currentDate;
+                            this.emitChangeSource.next();
+                        }
+                    });
                 }
             })
         })
@@ -106,6 +106,7 @@ export class SocketService {
                 }
                 })
                 this.listUsers = this.cfs.orderByProperty(this.listUsers, 'status');
+                this.emitChangeUsers.next();
             })
         })
 
@@ -131,6 +132,7 @@ export class SocketService {
                             {
                                 this.listUsers[i]["badge"] ++;
                                 this.singleton.chatBadge ++;
+                                this.emitChangeUsers.next();
                                 break;
                             }
                         }
@@ -140,9 +142,9 @@ export class SocketService {
                         this.selectedUsers[message._id]["messages"].push(message);
                         if(this.selectedUsers[message._id]["chatOpen"])
                         {
-                            this.emitChangeSource.next();
                             this.emmitFocus({room_id: this.selectedUsers[message._id]["room_id"], updateAll: false, senderId: message._id});
                             message["toUserRead"] = true;
+                            this.emitChangeSource.next();
                         }
                         else
                         {
@@ -150,6 +152,7 @@ export class SocketService {
                             console.log("incrementing the badge...");
                             this.selectedUsers[message._id]["badge"] = this.selectedUsers[message._id]["badge"] + 1;
                             console.log("the badge now is: "+this.selectedUsers[message._id]["badge"]);
+                            this.emitChangeUsers.next();
                         }
                     }
                 }

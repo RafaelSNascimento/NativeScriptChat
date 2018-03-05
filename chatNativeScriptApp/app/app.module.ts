@@ -13,6 +13,7 @@ import { CommonFunctionsService } from "./services/common-functions-service/comm
 import { SingletonService } from "./services/singleton-service/singleton.service";
 import { SocketService } from "./services/socket-service/socket.service";
 import { UserChatService } from "./services/userChat-service/userChat.service";
+import { NativeScriptUIListViewModule } from "nativescript-ui-listview/angular";
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { UserChatService } from "./services/userChat-service/userChat.service";
     NativeScriptHttpModule,
     NativeScriptRouterModule,
     ReactiveFormsModule,
+    NativeScriptUIListViewModule,
     NativeScriptRouterModule.forRoot(routes)
   ],
   providers: [ UserChatService, CommonFunctionsService, SingletonService, SocketService,  FormBuilder ],
