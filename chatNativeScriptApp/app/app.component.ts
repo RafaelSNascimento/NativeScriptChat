@@ -13,6 +13,7 @@ export class AppComponent {
     // verifico se existe token no localstorage, se tiver eu envio para o backend, em que me responde se o token é valido
     if (this.cfs.getToken())
     {
+      console.log("have token..");
       this.cfs.postObserver("/api/user/verify", this.cfs.getToken(), {})
       .subscribe( data=>
       {

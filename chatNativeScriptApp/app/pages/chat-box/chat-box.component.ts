@@ -8,7 +8,6 @@ import "rxjs/add/operator/switchMap";
 import { ActivatedRouteSnapshot, ActivatedRoute } from '@angular/router';
 import { SocketService } from '../../services/socket-service/socket.service';
 
-declare var $: any;
 @Component({
   selector: 'app-chat-box',
   moduleId: module.id,
@@ -29,7 +28,6 @@ export class ChatBoxComponent implements OnInit {
     this.socketService.emmitFocus({room_id: this.user["room_id"], updateAll: false, senderId: this.user["_id"]})
     this.user["chatOpen"] = true;
     this.socketService.changeEmitted$.subscribe(()=>{
-      console.log("chamou");
       this.scrollToBottom();
 
       // é necessário forçar a atualização do objeto user, pois existe um bug no IOS onde a listview não atualiza quando o array é atualizado por observables
@@ -47,19 +45,14 @@ export class ChatBoxComponent implements OnInit {
     }
     if(this.listView && this.user["messages"].length > 2)
     {
-      console.log("here");
       this.listView.refresh();
       this.listView.scrollToIndex(this.user["messages"].length-1);
-      console.log("done");
     }
   }
   ngOnDestroy()
   {
     this._changeDetectionRef.detach();
     this.user["chatOpen"] = false;
-  }
-  goBack() {
-    this.routerExtensions.back();
   }
   sendMessage(toUser, roomId)
   {

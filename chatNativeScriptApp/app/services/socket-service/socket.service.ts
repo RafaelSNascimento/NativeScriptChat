@@ -57,7 +57,7 @@ export class SocketService {
             this.ngZone.run(() => {
                 this.listUsers = listUsers.all;
                 
-                this.listUsers.map(user=>{
+                Promise.all(this.listUsers.map(user=>{
 
                     // pegamos o número da badge do usuário e passamos para o objeto user
                     user["badge"] = listUsers["userBadge"][user._id] || 0;
@@ -68,12 +68,14 @@ export class SocketService {
                     {
                         user.status = true;
                     }
+                    return;
+                }))
+                .then(()=>{
+                    // ordenamos nossa lista de usuários pelo status
+                    this.listUsers = this.cfs.orderByProperty(this.listUsers, 'status')
+                     // emitimos um sinal para nosso chatComponent, para dizer que temos uma lista de usuários disponivel para ele
+                    this.emitChangeUsers.next();
                 })
-                // ordenamos nossa lista de usuários pelo status
-                this.listUsers = this.cfs.orderByProperty(this.listUsers, 'status')
-
-                // emitimos um sinal para nosso chatComponent, para dizer que temos uma lista de usuários disponivel para ele
-                this.emitChangeUsers.next();
             });
         })
 

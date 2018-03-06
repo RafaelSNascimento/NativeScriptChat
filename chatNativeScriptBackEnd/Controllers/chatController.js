@@ -27,7 +27,7 @@ module.exports = {
                             users[user._id].push(socket);
                         }
                         var obj={};
-                        await Promise.all(user.rooms.map(el=>{
+                        userBadge = await Promise.all(user.rooms.map(el=>{
                             obj[el.to_user] =  ObjectId(el.room_id);
                             return
                         }))

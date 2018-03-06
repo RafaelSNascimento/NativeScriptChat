@@ -4,6 +4,8 @@ import { CommonFunctionsService } from '../../services/common-functions-service/
 import { SingletonService } from '../../services/singleton-service/singleton.service';
 import { RouterExtensions } from 'nativescript-angular/router';
 import { SocketService } from '../../services/socket-service/socket.service';
+import { ListView } from 'tns-core-modules/ui/list-view/list-view';
+import { Page } from 'tns-core-modules/ui/page/page';
 
 @Component({
   selector: 'app-chat',
@@ -18,8 +20,8 @@ export class ChatComponent implements OnInit, AfterViewInit {
   selectedUsers = {};
   listUsers = [];
   loadingUsers = true;
-  constructor(private routerExtensions: RouterExtensions, private _changeDetectionRef: ChangeDetectorRef, public socketService: SocketService, fb : FormBuilder, public cfs : CommonFunctionsService, public singleton: SingletonService ) { 
-    console.log("here");
+  listView: ListView;
+  constructor(private page: Page, private routerExtensions: RouterExtensions, private _changeDetectionRef: ChangeDetectorRef, public socketService: SocketService, fb : FormBuilder, public cfs : CommonFunctionsService, public singleton: SingletonService ) { 
     if(!this.socketService.intialized)
     {
       this.socketService.initSocket();
@@ -30,21 +32,19 @@ export class ChatComponent implements OnInit, AfterViewInit {
         this.listUsers = this.socketService.listUsers;
         this.loadingUsers = false;
       }
-      if (!this._changeDetectionRef['destroyed']) {
-        this._changeDetectionRef.detectChanges();
-      }
+
       // é necessário forçar a atualização do array listUsers, pois existe um bug no IOS onde a listview não atualiza quando o array é atualizado por observables
-      this.listUsers = [...this.listUsers];
+      this.listView.refresh();
     })
     if(this.socketService.listUsers.length)
     {
       this.listUsers = this.socketService.listUsers;
       this.loadingUsers = false;
-      this._changeDetectionRef.detectChanges();
     }
   }
 
   ngOnInit() {
+    this.listView = <ListView>this.page.getViewById("myScroller");
   }
 
   selectUser(user){

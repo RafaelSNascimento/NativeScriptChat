@@ -5,7 +5,7 @@
     <Label *ngIf="!loadingUsers" text="Você é o único usuário cadastrado no chat :(" textwrap="true"></Label>
     <ActivityIndicator *ngIf="loadingUsers" busy="true" width="100" height="100" class="activity-indicator"></ActivityIndicator>
   </StackLayout>
-  <ListView [items]="listUsers" height="100%" class="list-group">
+  <ListView id="myScroller" [items]="listUsers" height="100%" class="list-group">
     <ng-template let-item="item" let-i="index">
       <StackLayout class="p-5 list-group-item" orientation="horizontal" verticalAlignment="center" (tap)="selectUser(item)">
         <Image verticalAlignment="center" horizontalAligment="left" src="~/style/assets/avatar-default.png"  class="circle" width="50"></Image>
