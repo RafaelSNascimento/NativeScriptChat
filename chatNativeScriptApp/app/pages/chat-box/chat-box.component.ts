@@ -29,13 +29,15 @@ export class ChatBoxComponent implements OnInit {
     this.socketService.emmitFocus({room_id: this.user["room_id"], updateAll: false, senderId: this.user["_id"]})
     this.user["chatOpen"] = true;
     this.socketService.changeEmitted$.subscribe(()=>{
+      console.log("chamou");
       this.scrollToBottom();
-      this.user = [...this.user];
+
+      // é necessário forçar a atualização do objeto user, pois existe um bug no IOS onde a listview não atualiza quando o array é atualizado por observables
+      this.listView.refresh();
     })
   }
 
   ngOnInit() {
-    console.log("ccalling me 1");
     this._changeDetectionRef.detectChanges();
     this.listView = <ListView>this.page.getViewById("myScroller");
   }
@@ -45,7 +47,10 @@ export class ChatBoxComponent implements OnInit {
     }
     if(this.listView && this.user["messages"].length > 2)
     {
+      console.log("here");
+      this.listView.refresh();
       this.listView.scrollToIndex(this.user["messages"].length-1);
+      console.log("done");
     }
   }
   ngOnDestroy()

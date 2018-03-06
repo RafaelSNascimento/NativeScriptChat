@@ -19,6 +19,7 @@ export class ChatComponent implements OnInit, AfterViewInit {
   listUsers = [];
   loadingUsers = true;
   constructor(private routerExtensions: RouterExtensions, private _changeDetectionRef: ChangeDetectorRef, public socketService: SocketService, fb : FormBuilder, public cfs : CommonFunctionsService, public singleton: SingletonService ) { 
+    console.log("here");
     if(!this.socketService.intialized)
     {
       this.socketService.initSocket();
@@ -29,8 +30,11 @@ export class ChatComponent implements OnInit, AfterViewInit {
         this.listUsers = this.socketService.listUsers;
         this.loadingUsers = false;
       }
-      this._changeDetectionRef.detectChanges();
-      this.listUsers = this.listUsers.slice();
+      if (!this._changeDetectionRef['destroyed']) {
+        this._changeDetectionRef.detectChanges();
+      }
+      // é necessário forçar a atualização do array listUsers, pois existe um bug no IOS onde a listview não atualiza quando o array é atualizado por observables
+      this.listUsers = [...this.listUsers];
     })
     if(this.socketService.listUsers.length)
     {
