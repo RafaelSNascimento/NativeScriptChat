@@ -19,7 +19,6 @@ export class ChatComponent implements OnInit, AfterViewInit {
   listUsers = [];
   loadingUsers = true;
   constructor(private routerExtensions: RouterExtensions, private _changeDetectionRef: ChangeDetectorRef, public socketService: SocketService, fb : FormBuilder, public cfs : CommonFunctionsService, public singleton: SingletonService ) { 
-    console.log("here");
     if(!this.socketService.intialized)
     {
       this.socketService.initSocket();
