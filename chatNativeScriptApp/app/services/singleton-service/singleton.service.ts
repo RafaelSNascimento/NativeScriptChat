@@ -4,6 +4,7 @@ import { Subject } from 'rxjs/Subject';
 
 @Injectable()
 export class SingletonService {
+  //Coloque aqui o ip do servidor
   serverUrl: string = "http://192.168.1.42:3000";
   forms = [];
   listUserChat = [];

@@ -1,4 +1,4 @@
-import { Component, OnInit, EventEmitter, ViewContainerRef, ChangeDetectorRef, AfterViewInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, ViewContainerRef } from '@angular/core';
 import { FormsModule, FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms';
 import { CommonFunctionsService } from '../../services/common-functions-service/common-functions.service';
 import { SingletonService } from '../../services/singleton-service/singleton.service';
@@ -13,15 +13,14 @@ import { Page } from 'tns-core-modules/ui/page/page';
   templateUrl: './chat.component.html',
   styleUrls: ['./chat-common.css']
 })
-export class ChatComponent implements OnInit, AfterViewInit {
-  ngAfterViewInit(): void {
-  }
+export class ChatComponent implements OnInit {
   socket: any;
   selectedUsers = {};
   listUsers = [];
   loadingUsers = true;
   listView: ListView;
-  constructor(private page: Page, private routerExtensions: RouterExtensions, private _changeDetectionRef: ChangeDetectorRef, public socketService: SocketService, fb : FormBuilder, public cfs : CommonFunctionsService, public singleton: SingletonService ) { 
+  constructor(private page: Page, private routerExtensions: RouterExtensions, public socketService: SocketService, fb : FormBuilder, public cfs : CommonFunctionsService, public singleton: SingletonService ) { 
+
     if(!this.socketService.intialized)
     {
       this.socketService.initSocket();
