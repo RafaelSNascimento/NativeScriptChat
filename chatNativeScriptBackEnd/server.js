@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
+//Coloque aqui o ip para a conexão ao mongo
 mongoose.connect('mongodb://localhost:27017/chatNativeScript')
   .then(() =>  console.log('connection successful'))
   .catch((err) => console.error(err));
