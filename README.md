@@ -9,6 +9,6 @@ Um chat desenvolvido utilizando Node.js, MondoDB e Socket.io no Back-end e Nativ
 2. Configuração App:
 * Acesse: chatNativeScriptApp/app/services/singleton-service/singleton.service.ts
 * Coloque o IP do servidor na linha 8.
-* No CMD ou Terminal acesse a pasta chatNativeScriptApp e execute: "tns run [<android> <ios>]"
+* No CMD ou Terminal acesse a pasta chatNativeScriptApp e execute: "tns run ["android"  ou "ios"]"
 
 ![chatnativescript](https://user-images.githubusercontent.com/21286417/37011769-5cac4004-20d0-11e8-9609-2c0354dd0506.gif)
